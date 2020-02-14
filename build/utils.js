@@ -19,23 +19,23 @@ exports.cssLoader = function(options){
     const cssLoader = {
         loader: 'css-loader',
         options: {
-            minimize: process.env.NODE_ENV === 'production',
+            // minimize: process.env.NODE_ENV === 'production',
             sourceMap: options.sourceMap
         }
     }
     const postcssLoader = {
         loader: 'postcss-loader',
         options: {
-            minimize: process.env.NODE_ENV === 'production',
+            // minimize: process.env.NODE_ENV === 'production',
             sourceMap: options.sourceMap
         }
     }
     function generateLoaders (loader, loaderOptions){
         const loaders = options.usePostCss ? [ cssLoader, postcssLoader] : [cssLoader]
 
-        if(loaders){
+        if(loader){
             loaders.push({
-                loader: `${loaders}-loader`,
+                loader: loader + '-loader',
                 options: Object.assign({}, loaderOptions,{
                     sourceMap: options.sourceMap
                 })
@@ -55,7 +55,7 @@ exports.cssLoader = function(options){
     }
     return {
         css: generateLoaders(),
-        // postcss: generateLoaders(),
+        postcss: generateLoaders(),
         // less: generateLoaders('less'),
         // sass: generateLoaders('sass',{indentedSyntax: true}),
         // scss: generateLoaders('scss'),

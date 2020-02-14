@@ -3,11 +3,7 @@ const path = require('path');
 const vueLoaderConfig = require('./vue-loader.conf')
 const baseConfig = require('../config')
 const utils = require('./utils')
-const env = process.env.NODE_ENV;
-console.log(process.env.NODE_ENV, process.env.NODE_ENV_TYPE)
-const prodConfig = baseConfig[process.env.NODE_ENV_TYPE].build
-// const prodConfig = env === 'admin' ? baseConfig.admin.build : env === 'client' ? baseConfig.clinet.build : "test";
-
+const envType = process.env.NODE_ENV_TYPE
 
 // 拼接路径
 const resolve = function(dir){
@@ -15,21 +11,20 @@ const resolve = function(dir){
 }
 
 const config = {
-    // context: path.resolve(__dirname, '../'),
-    // entry: {
-    //     app: [resolve('code/client/src/main.js'), 'babel-polyfill']
-    // },
-    entry: resolve('code/client/src/main.js'),
+    entry: {
+        app: [resolve('code/' + envType + '/src/main.js'), 'babel-polyfill']
+    },
     resolve: {
         // 自动解析扩展名，引用文件时可以自动补全后缀
         extensions: ['.js', '.vue', '.json'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            // 'src': resolve('code/client/src'),
-            // 'components': resolve('code/client/src/compomemts'),
-            // 'assets': resolve('code/client/src/assets'),
-            // 'views': resolve('code/client/src/views'),
-            // 'store': resolve('code/client/src/store')
+            'src': resolve('code/' + envType + '/src'),
+            'components': resolve('code/' + envType + '/src/compomemts'),
+            'assets': resolve('code/' + envType + '/src/assets'),
+            'views': resolve('code/' + envType + '/src/views'),
+            'store': resolve('code/' + envType + '/src/store'),
+            'style': resolve('code/' + envType + '/src/style')
         }
     },
     module: {
@@ -43,7 +38,7 @@ const config = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules\/(?!(dom7|swiper)\/).*/,
-                include: [resolve('code/client/src')],
+                include: [resolve('code/' + envType + '/src')],
               },
               {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

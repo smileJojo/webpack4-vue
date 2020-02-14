@@ -62,7 +62,7 @@ const dev = merge(baseConf, {
         new HtmlWebpackPlugin({
             title: 'hello',
             filename: 'index.html',
-            template: 'code/client/index.html',
+            template: 'code/'+ process.env.NODE_ENV_TYPE +'/index.html',
             inject: true //script 注入位置
         }),
 
