@@ -20,7 +20,7 @@ const config = {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             'src': resolve('code/' + envType + '/src'),
-            'components': resolve('code/' + envType + '/src/compomemts'),
+            'components': resolve('code/' + envType + '/src/components'),
             'assets': resolve('code/' + envType + '/src/assets'),
             'views': resolve('code/' + envType + '/src/views'),
             'store': resolve('code/' + envType + '/src/store'),
