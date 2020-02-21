@@ -32,14 +32,15 @@ const config = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: vueLoaderConfig
+                options: vueLoaderConfig,
+                include: resolve('code/' + envType + '/src')
             },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules\/(?!(dom7|swiper)\/).*/,
-                include: [resolve('code/' + envType + '/src')],
-              },
+              test: /\.js$/,
+              loader: 'babel-loader',
+              exclude: /node_modules\/(?!(dom7|swiper)\/).*/,
+              include: [resolve('code/' + envType + '/src')], //指定哪个文件需要loader
+            },
               {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',

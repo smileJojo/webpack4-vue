@@ -2,65 +2,53 @@
 const path = require('path')
 
 module.exports = {
-    admin: {
-        dev: {
-            env: 'development',
-            publicPath: '/',
-            host: 'localhost',
-            port: '1234',
-            assetsSubDirectory: 'static',
-            devtoolType: 'cheap-module-eval-source-map',
-            proxyTable: {
-                '/api': {
-                    target:'',
-                    changeOrigin: true,
-                    pathRewrite: {
-                        '^/api': '/'
-                    }
-                }
-            }
-        },
-        build: {
-            env: 'production',
-            publicPath: '/admin',
-            assetsPath: 'static',
-            assetsSubDirectory: 'staitc',
-            devtoolType: 'source-map',
-            productionGzip: false,
-            productionGzipExtensions: ['js', 'css']
-        }
-    },
     client: {
         dev: {
             env: 'development',
-            publicPath: '/client/',
             host: 'localhost',
             port: '6969',
+
             assetsSubDirectory: 'static',
-            devtoolType: 'cheap-module-eval-source-map',
+            
+            assetsPublicPath: '/',  //文件引用路径
+
+            devtoolType: 'eval-source-map',
             proxyTable: {
-                '/api': {
-                    target:'',
+                '/client_demo_api': {
+                    target: 'http://192.168.1.19:3000/client_demo_api/',
                     changeOrigin: true,
                     pathRewrite: {
-                        '^/api': '/'
+                      '^/client_demo_api': '/'
                     }
+                },
+                '/maskAppoint':{
+                    target: 'https://mss.iconntech.com:9443/',
+                    pathRewrite: {
+                        '^/maskAppoint': ''
+                    },
+                    changeOrigin: true,
+                    secure: false,
+                    headers: {
+                      Referer: 'https://mss.iconntech.com:9443/maskAppoint/'
+                    }
+        
                 }
             },
-            cssSourceMap: true
+            cssSourceMap: true,
+            cssResources: 'code/client/src/style/variable.less' //全局使用less/sass变量路径
         },
         
         build: {
             env: 'production',
 
-            // template for index.html
+            // 指定打包后index路径
             index: path.resolve(__dirname, '../dist/client/index.html'),
 
             // paths
-            publicPath: '/client/',
-
             assetsRoot: path.resolve(__dirname, '../dist/client'),
             assetsSubDirectory: 'static',
+
+            assetsPublicPath: '/client/',  //打包后素材引用路径
 
             assetsPath: 'static',
             
@@ -69,6 +57,8 @@ module.exports = {
             productionGzip: false,
             productionGzipExtensions: ['js', 'css'],
             productionSourceMap: true,
+
+            cssResources: '' //全局使用less/sass变量路径
 
             
         }

@@ -40,6 +40,15 @@ exports.cssLoader = function(options){
                     sourceMap: options.sourceMap
                 })
             })
+
+            if (loader === 'less') {
+                loaders.push({
+                    loader: 'sass-resources-loader',
+                    options: {
+                    resources: options.cssResources,
+                    },
+                });
+            }
         }
 
         if(options.extract) { //是否需要抽离css
@@ -56,7 +65,7 @@ exports.cssLoader = function(options){
     return {
         css: generateLoaders(),
         postcss: generateLoaders(),
-        // less: generateLoaders('less'),
+        less: generateLoaders('less'),
         // sass: generateLoaders('sass',{indentedSyntax: true}),
         // scss: generateLoaders('scss'),
         // stylus: generateLoaders("stylus"),

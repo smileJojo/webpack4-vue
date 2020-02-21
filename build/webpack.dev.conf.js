@@ -22,10 +22,12 @@ const dev = merge(baseConf, {
     output: {
         filename: '[name]-[hash].js',
         // html 引用资源路径，在dev-server中，引用的是内存中文件
-        path: devConf.publicPath
+        path: config[process.env.NODE_ENV_TYPE].build.assetsRoot,
+        publicPath: config[process.env.NODE_ENV_TYPE].dev.assetsPublicPath,
     },
+
     module: {
-        rules: utils.styleLoaders({ sourceMap: devConf.cssSourceMap, usePostCSS: true })
+        rules: utils.styleLoaders({ sourceMap: devConf.cssSourceMap, usePostCSS: true, cssResources: devConf.cssResources})
     },
     // 生成sourceMaps (方便调试)
     devtool: devConf.devtoolType,

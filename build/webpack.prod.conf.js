@@ -20,16 +20,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const nodeEnvType = process.env.NODE_ENV_TYPE
 
+const buildConf = config[nodeEnvType].build
+
 // const env = require("../config").clinet.build
 
 const webpackConfig = merge(baseWebpackConfig, {
     mode: "production",
     output: {
         // build后所有文件存放的位置
-        path: config[nodeEnvType].build.assetsRoot,
+        path: buildConf.assetsRoot,
 
         // html 应用资源路径，可在此配置cdn引用地址
-        publicPath: config[nodeEnvType].build.publicPath,
+        publicPath: buildConf.assetsPublicPath,
 
         // 文件名
         filename: utils.assetsPath("js/[name].[chunkhash].js"),
@@ -39,9 +41,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     },
     module: {
         rules: utils.styleLoaders({
-            sourceMap: config[nodeEnvType].build.productionSoureceMap,
+            sourceMap: buildConf.productionSoureceMap,
             extract: true,
-            usePostCSS: true
+            usePostCSS: true,
+            cssResources: buildConf.cssResources
         })
     },
     optimization:{
@@ -58,13 +61,13 @@ const webpackConfig = merge(baseWebpackConfig, {
                         pure_funcs: ['console.log']
                     }
                 },
-                sourceMap: config[nodeEnvType].build.productionSourceMap,
+                sourceMap: buildConf.productionSourceMap,
                 parallel: true, // 使用多进程并行运行来提高构建速度
                 cache: true
             }),
             // 压缩css
             new OptimizeCssPlugin({
-                cssProcessor: config[nodeEnvType].build.productionSoureceMap
+                cssProcessor: buildConf.productionSoureceMap
                     ? {safe: true, map: {inline: false}}
                     : {safe: true}
             }),
@@ -106,7 +109,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // html配置
         new HtmlWebpackPlugin({
             // filename:  ,
-            filename: config[nodeEnvType].build.index,
+            filename: buildConf.index,
             template: 'code/client/index.html',
             inject: true,
             minify: {
@@ -130,7 +133,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // 将整个文件复制到构建输出指定目录下
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),
-            to: config[nodeEnvType].build.assetsPath,
+            to: buildConf.assetsPath,
             ignore: ['.*']
         }])
 
@@ -138,7 +141,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 })
 
 // 是否开启gzip压缩
-if(config[nodeEnvType].build.productioinGzip){
+if(buildConf.productioinGzip){
     const CompressionWebpackPkugin = require('compression-webpack-plugin')
     
     webpackConfig.plugins.push(
@@ -147,7 +150,7 @@ if(config[nodeEnvType].build.productioinGzip){
             algorithm: 'gzip',
             test: new RegExp(
                 '\\.(' + 
-                config[nodeEnvType].build.productionGzipExtensions.join('|') + 
+                buildConf.productionGzipExtensions.join('|') + 
                 ')$'
             ),
             threshold: 10240, // 只有大小大雨该值的资源会被处理， 默认值是 0 
