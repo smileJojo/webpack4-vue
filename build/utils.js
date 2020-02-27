@@ -41,14 +41,17 @@ exports.cssLoader = function(options){
                 })
             })
 
+            console.log(path.resolve(__dirname, '../code/client/' + options.cssResources))
+            
             if (loader === 'less') {
                 loaders.push({
                     loader: 'sass-resources-loader',
                     options: {
-                    resources: options.cssResources,
+                        resources: path.resolve(__dirname, '../code/client/' + options.cssResources),
                     },
                 });
             }
+            console.log(options, loaders)
         }
 
         if(options.extract) { //是否需要抽离css

@@ -35,7 +35,7 @@ module.exports = {
                 }
             },
             cssSourceMap: true,
-            cssResources: 'code/client/src/style/variable.less' //全局使用less/sass变量路径
+            cssResources: 'src/style/variable.less' //全局使用less/sass变量路径
         },
         
         build: {
