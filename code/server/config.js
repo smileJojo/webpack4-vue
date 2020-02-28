@@ -17,6 +17,7 @@ const auth = {
 }
 
 export default {
+    env: 'development',
     port,
     log,
     auth,

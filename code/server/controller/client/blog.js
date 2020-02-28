@@ -11,14 +11,21 @@ const name = new blogModel()
 // name.speak();
 
 module.exports = {
-    async info(ctx){
+    async info(ctx, next){
         console.log('----------------获取博客信息 blog/info-----------------------');
-        let _id = ctx.request.query.id || '5e54cea7e98ec00bd198e5e7';
+        let id = ctx.request.query.id || '5e54cea7e98ec00bd198e5e7';
         // console.log('请求返回status',ctx.response.status)
         try {
-            let data = await blogModel.find({type: '1'})
-            console.log(data)
-            return ctx.send(data, 'success');
+            let data = await ctx.findById(blogModel, id)
+            
+            ctx.send(data, 'success');
+            await next()
+            // data.then(() => {
+            //     return data
+            // })
+            // await next()
+            // return data
+            
         } catch (e) {
             return ctx.sendError(e,'error')
         }
